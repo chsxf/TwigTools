@@ -17,31 +17,36 @@
 		public function parse(Twig_Token $token)
 		{
 			$lineno = $token->getLine();
+			$parser = $this->parser;
+			$stream = $parser->getStream();
+			$exprParser = $parser->getExpressionParser();
 	        
-			$name = $this->parser->getExpressionParser()->parseExpression();
-	        $this->parser->getStream()->expect(Twig_Token::BLOCK_END_TYPE);
-	        
-	        $default = null;
-	        
+			$default = null;
 	        $cases = array();
 	        $end = false;
-	        $this->parser->subparse(array($this, 'decideIfFork'));
+	        
+	        $name = $exprParser->parseExpression();
+			if ($stream->getCurrent()->getType() == Twig_Token::BLOCK_END_TYPE)
+			{
+	        	$stream->next();
+	            $parser->subparse(array($this, 'decideIfFork'));
+			}
 	        
 	        while (!$end) {
-	            $v = $this->parser->getStream()->next();
+	            $v = $stream->next();
 	            switch ($v->getValue())
 	            {
 	                case 'case_default':
 	                	if ($default !== NULL)
 	                		throw new Twig_Error_Syntax(sprintf("Error at line %d. Switch blocks must contain only one case_default sub-block.", $v->getLine()));
-	                    $this->parser->getStream()->expect(Twig_Token::BLOCK_END_TYPE);
-	                    $default = $this->parser->subparse(array($this, 'decideIfFork'));
+	                    $stream->expect(Twig_Token::BLOCK_END_TYPE);
+	                    $default = $parser->subparse(array($this, 'decideIfFork'));
 	                    break;
 	
 	                case 'case':
-	                    $expr = $this->parser->getExpressionParser()->parseExpression();
-	                    $this->parser->getStream()->expect(Twig_Token::BLOCK_END_TYPE);
-	                    $body = $this->parser->subparse(array($this, 'decideIfFork'));
+	                    $expr = $exprParser->parseExpression();
+	                    $stream->expect(Twig_Token::BLOCK_END_TYPE);
+	                    $body = $parser->subparse(array($this, 'decideIfFork'));
 	                    $cases[] = new Twig_Node(array('expression' => $expr, 'body' => $body));
 	                    break;
 	
@@ -54,7 +59,7 @@
 	            }
 	        }
 	
-	        $this->parser->getStream()->expect(Twig_Token::BLOCK_END_TYPE);
+	        $stream->expect(Twig_Token::BLOCK_END_TYPE);
 	
 	        return new Xhaleera_Twig_Node_Switch($name, new Twig_Node($cases), $default, $lineno, $this->getTag());
 		}
