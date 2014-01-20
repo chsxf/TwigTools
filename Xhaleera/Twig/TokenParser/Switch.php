@@ -25,7 +25,7 @@
 	        
 	        $cases = array();
 	        $end = false;
-	        $this->parser->getStream()->expect(Twig_Token::BLOCK_START_TYPE);
+	        $this->parser->subparse(array($this, 'decideIfFork'));
 	        
 	        while (!$end) {
 	            $v = $this->parser->getStream()->next();
@@ -42,7 +42,7 @@
 	                    $expr = $this->parser->getExpressionParser()->parseExpression();
 	                    $this->parser->getStream()->expect(Twig_Token::BLOCK_END_TYPE);
 	                    $body = $this->parser->subparse(array($this, 'decideIfFork'));
-	                    $cases[] = array($expr, $body);
+	                    $cases[] = new Twig_Node(array('expression' => $expr, 'body' => $body));
 	                    break;
 	
 	                case 'endswitch':
@@ -56,7 +56,7 @@
 	
 	        $this->parser->getStream()->expect(Twig_Token::BLOCK_END_TYPE);
 	
-	        return new Twig_Node_Switch($name, new Twig_Node($cases), $default, $lineno, $this->getTag());
+	        return new Xhaleera_Twig_Node_Switch($name, new Twig_Node($cases), $default, $lineno, $this->getTag());
 		}
 	
 		/**

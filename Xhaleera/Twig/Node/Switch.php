@@ -17,7 +17,7 @@
 	     *
 	     * @param Twig_Compiler A Twig_Compiler instance
 	     */
-	    public function compile($compiler)
+	    public function compile(Twig_Compiler $compiler)
 	    {
 	        $compiler->addDebugInfo($this);
 			$compiler
@@ -26,13 +26,14 @@
 				->raw(") {\n")
 				->indent();
 			
-	        foreach ($this->getNode('cases') as $case) {
-	            $compiler
+			foreach ($this->getNode('cases') as $case) {
+	        	$compiler
 					->write('case ')
-	                ->subcompile($case[0])
+	                ->subcompile($case->getNode('expression'))
 	                ->raw(":\n")
 	                ->indent()
-	                ->subcompile($case[1])
+	                ->subcompile($case->getNode('body'))
+	                ->raw("break;\n")
 					->outdent();
 	        }
 	
@@ -41,6 +42,7 @@
 	                ->write("default:\n")
 	                ->indent()
 	                ->subcompile($this->getNode('default'))
+	                ->raw("break;\n")
 					->outdent();
 	        }
 	
