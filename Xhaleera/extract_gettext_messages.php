@@ -2,6 +2,10 @@
 	if (PHP_SAPI != 'cli')
 		die('Must be run using the Command-Line Interface.');
 	
+	if (!isset($argv))
+		$argv = array();
+	$regs = NULL;
+
 	array_shift($argv);
 	
 	// Parameters
@@ -107,6 +111,7 @@
 			2 => array('pipe', 'a')
 	);
 	$cmd = "{$xgettextPath}xgettext --language=PHP --force-po -o {$outputFile} --from-code={$encoding} {$additional_keywords} -";
+	$pipes = array();
 	$proc = proc_open($cmd, $descriptorspec, $pipes);
 
 	if (is_resource($proc))
