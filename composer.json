@@ -1,0 +1,20 @@
+{
+	"name" : "xhaleera/twig-tools",
+	"description" : "Extension tools for Twig",
+	"homepage" : "https://github.com/xhaleera/TwigTools",
+	"require" : {
+		"php" : "^5.3.0 || ^7.0",
+    "twig/twig": "1.*"
+	},
+	"autoload" : {
+		"psr-0" : {
+			"" : "./"
+		}
+	},
+	"authors" : [{
+			"name" : "Christophe SAUVEUR",
+			"email" : "christophe@xhaleera.com"
+		}
+	],
+	"license" : "GPL-2.0-only"
+}
