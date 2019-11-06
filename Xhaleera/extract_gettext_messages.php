@@ -107,8 +107,8 @@
 	
 	$descriptorspec = array(
 			0 => array('pipe', 'r'),
-			1 => array('pipe', 'w'),
-			2 => array('pipe', 'a')
+			1 => STDOUT,
+			2 => STDERR
 	);
 	$cmd = "{$xgettextPath}xgettext --language=PHP --force-po -o {$outputFile} --from-code={$encoding} {$additional_keywords} -";
 	$pipes = array();
@@ -122,3 +122,6 @@
 		$return_value = proc_close($proc);
 		exit($return_value);
 	}
+
+	fprintf(STDERR, "Unable to launch xgettext\n");
+	exit(-1);
