@@ -1,11 +1,15 @@
 <?php
+namespace chsxf\Twig\Extension {
+	
+	use \Twig\Extension\AbstractExtension;
+
 	/**
 	 * Lazy variable check extension for Twig
 	 * 
 	 * @author Christophe SAUVEUR <christophe@xhaleera.com>
 	 * @version 1.0
 	 */
-	class Xhaleera_Twig_Extension_Lazy extends Twig_Extension
+	class Lazy extends AbstractExtension
 	{
 		/**
 		 * (non-PHPdoc)
@@ -20,6 +24,7 @@
 		 * @see Twig_Extension::getTokenParsers()
 		 */
 		public function getTokenParsers() {
-			return array(new Xhaleera_Twig_TokenParser_Lazy());
+			return array(new \chsxf\Twig\TokenParser\Lazy());
 		}
 	}
+}
