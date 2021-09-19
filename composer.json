@@ -3,7 +3,7 @@
 	"description": "Extension Tools for Twig",
 	"homepage": "https://github.com/chsxf/TwigTools",
 	"require": {
-		"twig/twig": "^2"
+		"twig/twig": ">=2"
 	},
 	"autoload": {
 		"psr-4": {
