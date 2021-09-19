@@ -1,32 +1,37 @@
-TwigTools
-=========
+# About This Project
 
-A collection of Twig tools and extensions
+The main purpose of this package is to extend the capabilities of [Twig](https://twig.symfony.com/) with a collection of tools and extensions.
 
-Available Tools
-===============
+## Conventions
 
-* `Xhaleera_Twig_Extension_Gettext` provides gettext functions for use in Twig templates
-* `Xhaleera_Twig_Extension_Lazy` provides a Twig tag to temporarily skip strict variable checking
-* `Xhaleera_Twig_Extension_Switch` provides a switch case tag implementation for Twig templates
+This repository uses [gitmoji](https://gitmoji.dev) for its commit messages.
 
-Setting Up Twig Template Message Extractor with Poedit
-======================================================
+# Available Extensions
 
-The file `extract_gettext_messages.php` available in the repository can be set up as an extractor for Twig templates in Poedit, providing you use the same syntax as the Gettext extension you can find here.
+* [`\chsxf\Twig\Extension\Gettext`](README_Gettext.md) provides gettext functions for use in Twig templates
+* [`\chsxf\Twig\Extension\Lazy`](README_Lazy.md) provides a Twig tag to temporarily skip strict variable checking
+* [`\chsxf\Twig\Extension\SwitchCase`](README_SwitchCase.md) provides a switch case tag implementation for Twig templates
 
-A common path for xgettext on macOS is:
-`/Applications/Poedit.app/Contents/PlugIns/GettextTools.bundle/Contents/MacOS/bin/`
+# Additional Tools
 
-Here are the proper settings to enter in the extractor settings window:
-* __Language__: Custom name. Set it to `Twig` or anything else, at your convenience
-* __List of extensions...__: Set it to `*.twig`. You can add any other extension that suits your needs.
-* __Parser command__: `php -f /path/to/extract_gettext_messages.php -- -o %o %C %K --xgettext-path /path/to/xgettext/parent/folder/ %F`
-* __An item in keyword list__: `-k%k` (should be the default)
-* __An item in input files list__: `%f` (should be the default)
-* __Source code charset__: `‪--from-code=%c` (should be the default)
+In complement of the `Gettext` extension, this package provides a tool allowing you to easily extract localized strings from Twig templates through 3rd-party tools like [poedit](https://poedit.net/).
 
-License
-=======
+See the [`Gettext` extension's documentation](README_Gettext.md) for further information.
 
-Source code is released under the terms of the GNU General Public License v2 if not specified otherwise.
+# Getting Started
+
+## Requirements
+
+* Twig 2+
+
+## Installation
+
+We strongly recommend using [Composer](https://getcomposer.org/) to install this package.
+
+```
+composer require chsxf/twig-tools
+```
+
+# License
+
+Source code is released under the terms of the [GNU General Public License v2](LICENSE) if not specified otherwise.
