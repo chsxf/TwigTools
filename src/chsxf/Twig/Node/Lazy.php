@@ -28,11 +28,16 @@ namespace chsxf\Twig\Node {
          */
         public function compile(Compiler $compiler)
         {
+            $env = $compiler->getEnvironment();
+            $env_strict = $env->isStrictVariables();
+            $env->disableStrictVariables();
+
             $compiler->addDebugInfo($this)
-				->write('$env_strict = $this->env->isStrictVariables();')->raw("\n")
-				->write('$this->env->disableStrictVariables();')->raw("\n")
-				->subcompile($this->getNode('body'))
-				->write('if ($env_strict) $this->env->enableStrictVariables();')->raw("\n");
+				->subcompile($this->getNode('body'));
+
+            if ($env_strict) {
+                $env->enableStrictVariables();
+            }
         }
     }
 }
