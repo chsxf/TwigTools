@@ -5,8 +5,9 @@ namespace chsxf\Twig\TokenParser {
 	use \Twig\Token;
 	use \Twig\Node\Node;
 	use \Twig\Error\SyntaxError;
+    use Twig\Node\TextNode;
 
-    /**
+/**
      * Switch token parser for Twig
      *
      * @author Christophe SAUVEUR <christophe@xhaleera.com>
@@ -61,12 +62,16 @@ namespace chsxf\Twig\TokenParser {
                         break;
     
                     default:
-                        throw new SyntaxError(sprintf('Unexpected end of template. Twig was looking for the following tags "case", "default", or "endswitch" to continue the "switch" block started at line %d)', $lineno), -1);
+                        throw new SyntaxError(sprintf('Unexpected end of template. Twig was looking for the following tags "case", "case_default", or "endswitch" to continue the "switch" block started at line %d)', $lineno), -1);
                 }
             }
     
             $stream->expect(Token::BLOCK_END_TYPE);
     
+            if ($default === null) {
+                throw new SyntaxError(sprintf('No "case_default" tag found inside the "switch" block started at line %d)', $lineno), -1);
+            }
+
             return new \chsxf\Twig\Node\SwitchCase($name, new Node($cases), $default, $lineno, $this->getTag());
         }
     
